@@ -12,8 +12,8 @@ class TarefaListItem extends StatelessWidget {
     required this.tarefa,
     required this.controller,
     required this.index,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +37,6 @@ class TarefaListItem extends StatelessWidget {
         subtitle: Text(tarefa.descricao),
         trailing: Icon(Icons.check_circle_outline),
         onTap: () {
-          // Abre o modal de edição
           Navigator.of(context).push(
             MaterialPageRoute(
               builder:

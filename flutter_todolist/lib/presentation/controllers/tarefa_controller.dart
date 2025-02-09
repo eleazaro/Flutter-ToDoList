@@ -1,28 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_todolist/domain/entities/tarefa_entity.dart';
+import '../../domain/entities/tarefa_entity.dart';
+import '../../domain/repositories/tarefa_repository.dart';
 
 class TarefaController extends ChangeNotifier {
-  List<TarefaEntity> _tarefas = [
-    TarefaEntity(titulo: 'Tarefa 1', descricao: 'Descrição da Tarefa 1'),
-    TarefaEntity(titulo: 'Tarefa 2', descricao: 'Descrição da Tarefa 2'),
-    TarefaEntity(titulo: 'Tarefa 3', descricao: 'Descrição da Tarefa 3'),
-    TarefaEntity(titulo: 'Tarefa 4', descricao: 'Descrição da Tarefa 4'),
-  ];
+  final TarefaRepository repository;
+  List<TarefaEntity> _tarefas = [];
+
+  TarefaController(this.repository);
 
   List<TarefaEntity> get tarefas => _tarefas;
 
-  void adicionarTarefa(TarefaEntity tarefa) {
-    _tarefas.add(tarefa);
+  Future<void> carregarTarefas() async {
+    _tarefas = await repository.getTarefas();
     notifyListeners();
   }
 
-  void editarTarefa(int index, TarefaEntity tarefa) {
-    _tarefas[index] = tarefa;
-    notifyListeners();
+  Future<void> adicionarTarefa(TarefaEntity tarefa) async {
+    await repository.postTarefa(tarefa);
+    carregarTarefas();
   }
 
-  void removerTarefa(int index) {
-    _tarefas.removeAt(index);
-    notifyListeners();
+  Future<void> editarTarefa(TarefaEntity tarefa) async {
+    await repository.putTarefa(tarefa);
+    carregarTarefas();
+  }
+
+  Future<void> removerTarefa(int id) async {
+    await repository.deleteTarefa(id);
+    carregarTarefas();
   }
 }

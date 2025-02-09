@@ -1,6 +1,11 @@
 class TarefaEntity {
-  String titulo;
-  String descricao;
+  final int id;
+  final String titulo;
+  final String descricao;
 
-  TarefaEntity({required this.titulo, required this.descricao});
+  TarefaEntity({
+    required this.id,
+    required this.titulo,
+    required this.descricao,
+  });
 }
