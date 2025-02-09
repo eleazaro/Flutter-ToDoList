@@ -20,6 +20,9 @@ class TarefaRepositoryImpl implements TarefaRepository {
         id: tarefa.id,
         titulo: tarefa.titulo,
         descricao: tarefa.descricao,
+        criadoEm: tarefa.criadoEm,
+        status: tarefa.status,
+        concluidoEm: tarefa.concluidoEm,
       ),
     );
   }
@@ -31,6 +34,9 @@ class TarefaRepositoryImpl implements TarefaRepository {
         id: tarefa.id,
         titulo: tarefa.titulo,
         descricao: tarefa.descricao,
+        criadoEm: tarefa.criadoEm,
+        status: tarefa.status,
+        concluidoEm: tarefa.concluidoEm,
       ),
     );
   }
