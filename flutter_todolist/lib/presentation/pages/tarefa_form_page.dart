@@ -2,23 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_todolist/domain/entities/tarefa_entity.dart';
 import '../controllers/tarefa_controller.dart';
 
-class TarefaFormModal extends StatefulWidget {
+class TarefaFormPage extends StatefulWidget {
   final TarefaController controller;
   final TarefaEntity? tarefaEditada;
-  final int? index;
 
-  const TarefaFormModal({
+  const TarefaFormPage({
     required this.controller,
     this.tarefaEditada,
-    this.index,
     super.key,
   });
 
   @override
-  TarefaFormModalState createState() => TarefaFormModalState();
+  TarefaFormPageState createState() => TarefaFormPageState();
 }
 
-class TarefaFormModalState extends State<TarefaFormModal> {
+class TarefaFormPageState extends State<TarefaFormPage> {
   late final TextEditingController _tituloController;
   late final TextEditingController _descricaoController;
   late StatusTarefa _status;
@@ -93,7 +91,7 @@ class TarefaFormModalState extends State<TarefaFormModal> {
         title: Text(
           widget.tarefaEditada == null ? 'Nova Tarefa' : 'Editar Tarefa',
         ),
-        backgroundColor: _getStatusColor(_status), // Cor do AppBar dinâmica
+        backgroundColor: _getStatusColor(_status),
         actions: [
           IconButton(
             icon: const Icon(Icons.close),
@@ -102,7 +100,6 @@ class TarefaFormModalState extends State<TarefaFormModal> {
         ],
       ),
       body: SingleChildScrollView(
-        // Adicionado para permitir rolagem
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

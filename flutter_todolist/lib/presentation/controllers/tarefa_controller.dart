@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_todolist/domain/usecases/delete_tarefas.dart';
+import 'package:flutter_todolist/domain/usecases/get_tarefas.dart';
+import 'package:flutter_todolist/domain/usecases/post_tarefas.dart';
+import 'package:flutter_todolist/domain/usecases/put_tarefas.dart';
 import '../../domain/entities/tarefa_entity.dart';
-import '../../domain/repositories/tarefa_repository.dart';
 
 class TarefaController extends ChangeNotifier {
-  final TarefaRepository repository;
+  final GetTarefasUseCase getTarefasUseCase;
+  final PostTarefaUseCase postTarefaUseCase;
+  final PutTarefaUseCase putTarefaUseCase;
+  final DeleteTarefaUseCase deleteTarefaUseCase;
+
   List<TarefaEntity> _tarefas = [];
   Set<StatusTarefa> _filtroStatus = {
     StatusTarefa.pendente,
@@ -11,7 +18,12 @@ class TarefaController extends ChangeNotifier {
     StatusTarefa.concluida,
   }; // Filtros padrão (todos os status)
 
-  TarefaController(this.repository);
+  TarefaController({
+    required this.getTarefasUseCase,
+    required this.postTarefaUseCase,
+    required this.putTarefaUseCase,
+    required this.deleteTarefaUseCase,
+  });
 
   List<TarefaEntity> get tarefas => _tarefas;
 
@@ -24,23 +36,23 @@ class TarefaController extends ChangeNotifier {
   }
 
   Future<void> carregarTarefas() async {
-    _tarefas = await repository.getTarefas();
+    _tarefas = await getTarefasUseCase();
     notifyListeners();
   }
 
   Future<void> adicionarTarefa(TarefaEntity tarefa) async {
-    await repository.postTarefa(tarefa);
-    carregarTarefas();
+    await postTarefaUseCase(tarefa);
+    await carregarTarefas(); // Recarrega as tarefas após adicionar
   }
 
   Future<void> editarTarefa(TarefaEntity tarefa) async {
-    await repository.putTarefa(tarefa);
-    carregarTarefas();
+    await putTarefaUseCase(tarefa);
+    await carregarTarefas(); // Recarrega as tarefas após editar
   }
 
   Future<void> removerTarefa(int id) async {
-    await repository.deleteTarefa(id);
-    carregarTarefas();
+    await deleteTarefaUseCase(id);
+    await carregarTarefas(); // Recarrega as tarefas após remover
   }
 
   void atualizarFiltro(Set<StatusTarefa> novosFiltros) {

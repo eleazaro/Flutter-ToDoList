@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_todolist/domain/entities/tarefa_entity.dart';
-import 'package:flutter_todolist/presentation/widgets/tarefa_form_modal.dart';
+import 'package:flutter_todolist/presentation/pages/tarefa_form_page.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart'; // Importando a biblioteca intl
 import '../controllers/tarefa_controller.dart';
@@ -10,7 +10,6 @@ class TarefaCard extends StatelessWidget {
 
   const TarefaCard({super.key, required this.tarefa});
 
-  // Função para formatar a data
   String formatarData(DateTime data) {
     final formatador = DateFormat('HH:mm dd/MM/yyyy');
     return formatador.format(data);
@@ -36,7 +35,7 @@ class TarefaCard extends StatelessWidget {
         Navigator.of(context).push(
           MaterialPageRoute(
             builder:
-                (context) => TarefaFormModal(
+                (context) => TarefaFormPage(
                   controller: controller,
                   tarefaEditada: tarefa,
                 ),
@@ -62,15 +61,11 @@ class TarefaCard extends StatelessWidget {
                   const SizedBox(height: 8),
                   Text(tarefa.descricao),
                   const SizedBox(height: 8),
-                  Text(
-                    'Criado em: ${formatarData(tarefa.criadoEm)}',
-                  ), // Formatação da data
+                  Text('Criado em: ${formatarData(tarefa.criadoEm)}'),
                   // Exibe a data de conclusão somente se o status for 'concluida'
                   if (tarefa.status == StatusTarefa.concluida &&
                       tarefa.concluidoEm != null)
-                    Text(
-                      'Concluído em: ${formatarData(tarefa.concluidoEm!)}',
-                    ), // Formatação da data
+                    Text('Concluído em: ${formatarData(tarefa.concluidoEm!)}'),
                 ],
               ),
               // Ícone de lixeira no canto inferior direito
@@ -92,21 +87,20 @@ class TarefaCard extends StatelessWidget {
                           actions: [
                             TextButton(
                               onPressed: () {
-                                Navigator.of(context).pop(); // Fecha o diálogo
+                                Navigator.of(context).pop();
                               },
                               child: const Text('Cancelar'),
                             ),
                             TextButton(
                               onPressed: () {
-                                controller.removerTarefa(
-                                  tarefa.id,
-                                ); // Deleta a tarefa
-                                Navigator.of(context).pop(); // Fecha o diálogo
+                                controller.removerTarefa(tarefa.id);
+                                Navigator.of(context).pop();
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     content: Text(
                                       'Tarefa "${tarefa.titulo}" removida',
                                     ),
+                                    //Melhoria: nçao precisar inserir uum novo e restaurar o registro
                                     action: SnackBarAction(
                                       label: 'Desfazer',
                                       onPressed: () {
