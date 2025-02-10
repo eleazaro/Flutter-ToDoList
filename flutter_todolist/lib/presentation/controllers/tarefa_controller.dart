@@ -47,18 +47,39 @@ class TarefaController extends ChangeNotifier {
   }
 
   Future<void> adicionarTarefa(TarefaEntity tarefa) async {
-    await postTarefaService(tarefa);
-    await carregarTarefas();
+    final serviceRequest = await postTarefaService(tarefa);
+    final resultado = serviceRequest.fold((l) => l, (r) => r);
+    if (resultado == null) {
+      await carregarTarefas();
+    } else {
+      _tarefas = [];
+    }
+
+    notifyListeners();
   }
 
   Future<void> editarTarefa(TarefaEntity tarefa) async {
-    await putTarefaService(tarefa);
-    await carregarTarefas();
+    final serviceRequest = await putTarefaService(tarefa);
+    final resultado = serviceRequest.fold((l) => l, (r) => r);
+    if (resultado == null) {
+      await carregarTarefas();
+    } else {
+      _tarefas = [];
+    }
+
+    notifyListeners();
   }
 
   Future<void> removerTarefa(int id) async {
-    await deleteTarefaService(id);
-    await carregarTarefas();
+    final serviceRequest = await deleteTarefaService(id);
+    final resultado = serviceRequest.fold((l) => l, (r) => r);
+    if (resultado == null) {
+      await carregarTarefas();
+    } else {
+      _tarefas = [];
+    }
+
+    notifyListeners();
   }
 
   void atualizarFiltro(Set<StatusTarefa> novosFiltros) {

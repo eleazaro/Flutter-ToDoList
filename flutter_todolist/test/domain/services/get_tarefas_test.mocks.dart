@@ -101,13 +101,17 @@ class MockDeleteTarefaService extends _i1.Mock
           as _i2.ITarefaRepository);
 
   @override
-  _i5.Future<void> call(int? id) =>
+  _i5.Future<_i3.Either<_i6.Failure, Null>> call(int? id) =>
       (super.noSuchMethod(
             Invocation.method(#call, [id]),
-            returnValue: _i5.Future<void>.value(),
-            returnValueForMissingStub: _i5.Future<void>.value(),
+            returnValue: _i5.Future<_i3.Either<_i6.Failure, Null>>.value(
+              _FakeEither_1<_i6.Failure, Null>(
+                this,
+                Invocation.method(#call, [id]),
+              ),
+            ),
           )
-          as _i5.Future<void>);
+          as _i5.Future<_i3.Either<_i6.Failure, Null>>);
 }
 
 /// A class which mocks [PostTarefaService].
@@ -130,13 +134,17 @@ class MockPostTarefaService extends _i1.Mock implements _i9.PostTarefaService {
           as _i2.ITarefaRepository);
 
   @override
-  _i5.Future<void> call(_i7.TarefaEntity? tarefa) =>
+  _i5.Future<_i3.Either<_i6.Failure, Null>> call(_i7.TarefaEntity? tarefa) =>
       (super.noSuchMethod(
             Invocation.method(#call, [tarefa]),
-            returnValue: _i5.Future<void>.value(),
-            returnValueForMissingStub: _i5.Future<void>.value(),
+            returnValue: _i5.Future<_i3.Either<_i6.Failure, Null>>.value(
+              _FakeEither_1<_i6.Failure, Null>(
+                this,
+                Invocation.method(#call, [tarefa]),
+              ),
+            ),
           )
-          as _i5.Future<void>);
+          as _i5.Future<_i3.Either<_i6.Failure, Null>>);
 }
 
 /// A class which mocks [PutTarefaService].
@@ -159,11 +167,15 @@ class MockPutTarefaService extends _i1.Mock implements _i10.PutTarefaService {
           as _i2.ITarefaRepository);
 
   @override
-  _i5.Future<void> call(_i7.TarefaEntity? tarefa) =>
+  _i5.Future<_i3.Either<_i6.Failure, Null>> call(_i7.TarefaEntity? tarefa) =>
       (super.noSuchMethod(
             Invocation.method(#call, [tarefa]),
-            returnValue: _i5.Future<void>.value(),
-            returnValueForMissingStub: _i5.Future<void>.value(),
+            returnValue: _i5.Future<_i3.Either<_i6.Failure, Null>>.value(
+              _FakeEither_1<_i6.Failure, Null>(
+                this,
+                Invocation.method(#call, [tarefa]),
+              ),
+            ),
           )
-          as _i5.Future<void>);
+          as _i5.Future<_i3.Either<_i6.Failure, Null>>);
 }

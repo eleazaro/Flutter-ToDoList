@@ -51,18 +51,31 @@ class TarefaRepositoryImpl implements ITarefaRepository {
 
   @override
   Future<Either<Failure, void>> postTarefa(TarefaEntity tarefa) async {
+    final String endpoint = '/Tarefa';
+
     try {
-      await remoteDataSource.postTarefa(
-        TarefaEntity(
-          id: tarefa.id,
-          titulo: tarefa.titulo,
-          descricao: tarefa.descricao,
-          criadoEm: tarefa.criadoEm,
-          status: tarefa.status,
-          concluidoEm: tarefa.concluidoEm,
-        ),
-      );
-      return Right(null);
+      try {
+        var url = Uri.parse('$baseUrl$endpoint');
+        final result = await http.post(
+          url,
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: jsonEncode(tarefa.toJson()),
+        );
+
+        if (result.statusCode != 200) {
+          throw PostTarefasException(
+            StackTrace.current,
+            'PostTarefa',
+            "StatusCode: ${result.statusCode}",
+          );
+        }
+
+        return Right(null);
+      } catch (exception, stacktrace) {
+        throw PostTarefasException(stacktrace, 'PostTarefa', exception);
+      }
     } catch (e) {
       return Left(PostTarefasFailure());
     }

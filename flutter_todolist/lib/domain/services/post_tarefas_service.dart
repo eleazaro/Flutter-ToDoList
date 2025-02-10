@@ -1,3 +1,6 @@
+import 'package:dartz/dartz.dart';
+import 'package:flutter_todolist/core/errors/failures.dart';
+
 import '../entities/tarefa_entity.dart';
 import '../repositories/itarefa_repository.dart';
 
@@ -6,7 +9,12 @@ class PostTarefaService {
 
   PostTarefaService(this.repository);
 
-  Future<void> call(TarefaEntity tarefa) async {
-    await repository.postTarefa(tarefa);
+  Future<Either<Failure, Null>> call(TarefaEntity tarefa) async {
+    try {
+      await repository.postTarefa(tarefa);
+      return Right(null);
+    } catch (e) {
+      return Left(PostTarefasFailure());
+    }
   }
 }

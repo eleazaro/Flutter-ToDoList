@@ -36,7 +36,7 @@ class TarefaEntity {
       'descricao': descricao,
       'criadoEm': criadoEm.toIso8601String(),
       'concluidoEm': concluidoEm?.toIso8601String(),
-      'status': status.toString().split('.').last,
+      'status': status.index,
     };
   }
 }
