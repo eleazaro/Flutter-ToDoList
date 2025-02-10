@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_todolist/presentation/pages/tarefa_form_page.dart';
+import 'package:flutter_todolist/presentation/view/tarefa_form_page.dart';
 import 'package:provider/provider.dart';
 import '../controllers/tarefa_controller.dart';
 import '../widgets/tarefa_card.dart';
@@ -43,8 +43,7 @@ class _TarefaPageState extends State<TarefaPage> {
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder:
-                      (context) =>
-                          TarefaFormPage(controller: tarefaController),
+                      (context) => TarefaFormPage(controller: tarefaController),
                 ),
               );
             },
@@ -144,7 +143,7 @@ class _TarefaPageState extends State<TarefaPage> {
                         });
                       },
                     );
-                  }).toList(),
+                  }),
                   const SizedBox(height: 16),
                   Center(
                     child: ElevatedButton(

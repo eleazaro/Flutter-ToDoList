@@ -1,6 +1,6 @@
-import 'package:flutter_todolist/core/data/datasources/tarefa_remote_datasource.dart';
-import 'package:flutter_todolist/core/data/models/tarefa_model.dart';
+import 'package:flutter_todolist/data/datasources/tarefa_remote_datasource.dart';
 import 'package:flutter_todolist/core/network/api_client.dart';
+import 'package:flutter_todolist/domain/entities/tarefa_entity.dart';
 
 class TarefaRemoteDataSourceImpl implements TarefaRemoteDataSource {
   final ApiClient apiClient;
@@ -8,18 +8,18 @@ class TarefaRemoteDataSourceImpl implements TarefaRemoteDataSource {
   TarefaRemoteDataSourceImpl(this.apiClient);
 
   @override
-  Future<List<TarefaModel>> getTarefas() async {
+  Future<List<TarefaEntity>> getTarefas() async {
     final response = await apiClient.get('/Tarefa');
-    return (response).map((json) => TarefaModel.fromJson(json)).toList();
+    return (response).map((json) => TarefaEntity.fromJson(json)).toList();
   }
 
   @override
-  Future<void> postTarefa(TarefaModel tarefa) async {
+  Future<void> postTarefa(TarefaEntity tarefa) async {
     await apiClient.post('/Tarefa', tarefa.toJson());
   }
 
   @override
-  Future<void> putTarefa(TarefaModel tarefa) async {
+  Future<void> putTarefa(TarefaEntity tarefa) async {
     await apiClient.put('/Tarefa/${tarefa.id}', tarefa.toJson());
   }
 

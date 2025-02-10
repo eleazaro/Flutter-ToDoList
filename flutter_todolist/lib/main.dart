@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_todolist/domain/usecases/delete_tarefas.dart';
-import 'package:flutter_todolist/domain/usecases/get_tarefas.dart';
-import 'package:flutter_todolist/domain/usecases/post_tarefas.dart';
-import 'package:flutter_todolist/domain/usecases/put_tarefas.dart';
+import 'package:flutter_todolist/domain/services/delete_tarefas_service.dart';
+import 'package:flutter_todolist/domain/services/get_tarefas_service.dart';
+import 'package:flutter_todolist/domain/services/post_tarefas_service.dart';
+import 'package:flutter_todolist/domain/services/put_tarefas_service.dart';
 import 'package:provider/provider.dart';
-import 'core/data/datasources/tarefa_remote_datasource_impl.dart';
-import 'core/data/repositories/tarefa_repository_impl.dart';
+import 'data/datasources/tarefa_remote_datasource_impl.dart';
+import 'data/repositories/tarefa_repository_impl.dart';
 import 'core/network/api_client.dart';
 import 'presentation/controllers/tarefa_controller.dart';
-import 'presentation/pages/tarefa_page.dart';
+import 'presentation/view/tarefa_page.dart';
 
 void main() {
   final apiClient = ApiClient();
   final remoteDataSource = TarefaRemoteDataSourceImpl(apiClient);
   final repository = TarefaRepositoryImpl(remoteDataSource: remoteDataSource);
 
-  final getTarefasUseCase = GetTarefasUseCase(repository);
-  final postTarefaUseCase = PostTarefaUseCase(repository);
-  final putTarefaUseCase = PutTarefaUseCase(repository);
-  final deleteTarefaUseCase = DeleteTarefaUseCase(repository);
+  final getTarefasUseCase = GetTarefasService(repository);
+  final postTarefaUseCase = PostTarefaService(repository);
+  final putTarefaUseCase = PutTarefaService(repository);
+  final deleteTarefaUseCase = DeleteTarefaService(repository);
 
   runApp(
     MultiProvider(
@@ -26,10 +26,10 @@ void main() {
         ChangeNotifierProvider<TarefaController>(
           create:
               (context) => TarefaController(
-                getTarefasUseCase: getTarefasUseCase,
-                postTarefaUseCase: postTarefaUseCase,
-                putTarefaUseCase: putTarefaUseCase,
-                deleteTarefaUseCase: deleteTarefaUseCase,
+                getTarefasService: getTarefasUseCase,
+                postTarefaService: postTarefaUseCase,
+                putTarefaService: putTarefaUseCase,
+                deleteTarefaService: deleteTarefaUseCase,
               ),
         ),
       ],

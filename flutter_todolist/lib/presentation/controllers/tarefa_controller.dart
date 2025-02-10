@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_todolist/domain/usecases/delete_tarefas.dart';
-import 'package:flutter_todolist/domain/usecases/get_tarefas.dart';
-import 'package:flutter_todolist/domain/usecases/post_tarefas.dart';
-import 'package:flutter_todolist/domain/usecases/put_tarefas.dart';
+import 'package:flutter_todolist/domain/services/delete_tarefas_service.dart';
+import 'package:flutter_todolist/domain/services/get_tarefas_service.dart';
+import 'package:flutter_todolist/domain/services/post_tarefas_service.dart';
+import 'package:flutter_todolist/domain/services/put_tarefas_service.dart';
 import '../../domain/entities/tarefa_entity.dart';
 
 class TarefaController extends ChangeNotifier {
-  final GetTarefasUseCase getTarefasUseCase;
-  final PostTarefaUseCase postTarefaUseCase;
-  final PutTarefaUseCase putTarefaUseCase;
-  final DeleteTarefaUseCase deleteTarefaUseCase;
+  final GetTarefasService getTarefasService;
+  final PostTarefaService postTarefaService;
+  final PutTarefaService putTarefaService;
+  final DeleteTarefaService deleteTarefaService;
 
   List<TarefaEntity> _tarefas = [];
   Set<StatusTarefa> _filtroStatus = {
@@ -19,10 +19,10 @@ class TarefaController extends ChangeNotifier {
   }; // Filtros padrão (todos os status)
 
   TarefaController({
-    required this.getTarefasUseCase,
-    required this.postTarefaUseCase,
-    required this.putTarefaUseCase,
-    required this.deleteTarefaUseCase,
+    required this.getTarefasService,
+    required this.postTarefaService,
+    required this.putTarefaService,
+    required this.deleteTarefaService,
   });
 
   List<TarefaEntity> get tarefas => _tarefas;
@@ -36,23 +36,29 @@ class TarefaController extends ChangeNotifier {
   }
 
   Future<void> carregarTarefas() async {
-    _tarefas = await getTarefasUseCase();
-    notifyListeners();
+    final serviceRequest = await getTarefasService();
+    final resultado = serviceRequest.fold((l) => l, (r) => r);
+    if (resultado is List<TarefaEntity>) {
+      _tarefas = resultado;
+      notifyListeners();
+    } else {
+      _tarefas = [];
+    }
   }
 
   Future<void> adicionarTarefa(TarefaEntity tarefa) async {
-    await postTarefaUseCase(tarefa);
-    await carregarTarefas(); // Recarrega as tarefas após adicionar
+    await postTarefaService(tarefa);
+    await carregarTarefas();
   }
 
   Future<void> editarTarefa(TarefaEntity tarefa) async {
-    await putTarefaUseCase(tarefa);
-    await carregarTarefas(); // Recarrega as tarefas após editar
+    await putTarefaService(tarefa);
+    await carregarTarefas();
   }
 
   Future<void> removerTarefa(int id) async {
-    await deleteTarefaUseCase(id);
-    await carregarTarefas(); // Recarrega as tarefas após remover
+    await deleteTarefaService(id);
+    await carregarTarefas();
   }
 
   void atualizarFiltro(Set<StatusTarefa> novosFiltros) {

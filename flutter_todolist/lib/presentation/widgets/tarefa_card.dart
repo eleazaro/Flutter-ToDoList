@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_todolist/domain/entities/tarefa_entity.dart';
-import 'package:flutter_todolist/presentation/pages/tarefa_form_page.dart';
+import 'package:flutter_todolist/presentation/view/tarefa_form_page.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart'; // Importando a biblioteca intl
 import '../controllers/tarefa_controller.dart';
@@ -48,25 +48,30 @@ class TarefaCard extends StatelessWidget {
           padding: const EdgeInsets.all(16.0),
           child: Stack(
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    tarefa.titulo,
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+              SingleChildScrollView(
+                // Adicionando o SingleChildScrollView
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      tarefa.titulo,
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(tarefa.descricao),
-                  const SizedBox(height: 8),
-                  Text('Criado em: ${formatarData(tarefa.criadoEm)}'),
-                  // Exibe a data de conclusão somente se o status for 'concluida'
-                  if (tarefa.status == StatusTarefa.concluida &&
-                      tarefa.concluidoEm != null)
-                    Text('Concluído em: ${formatarData(tarefa.concluidoEm!)}'),
-                ],
+                    const SizedBox(height: 8),
+                    Text(tarefa.descricao),
+                    const SizedBox(height: 8),
+                    Text('Criado em: ${formatarData(tarefa.criadoEm)}'),
+                    // Exibe a data de conclusão somente se o status for 'concluida'
+                    if (tarefa.status == StatusTarefa.concluida &&
+                        tarefa.concluidoEm != null)
+                      Text(
+                        'Concluído em: ${formatarData(tarefa.concluidoEm!)}',
+                      ),
+                  ],
+                ),
               ),
               // Ícone de lixeira no canto inferior direito
               Positioned(
@@ -100,7 +105,6 @@ class TarefaCard extends StatelessWidget {
                                     content: Text(
                                       'Tarefa "${tarefa.titulo}" removida',
                                     ),
-                                    //Melhoria: nçao precisar inserir uum novo e restaurar o registro
                                     action: SnackBarAction(
                                       label: 'Desfazer',
                                       onPressed: () {

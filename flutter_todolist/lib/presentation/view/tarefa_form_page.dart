@@ -53,16 +53,17 @@ class TarefaFormPageState extends State<TarefaFormPage> {
     }
   }
 
-  Future<void> _selectConcluidoEm(BuildContext context) async {
+  Future<void> _selectConcluidoEm(BuildContext buildContext) async {
     final DateTime? picked = await showDatePicker(
-      context: context,
+      context: buildContext,
       initialDate: _concluidoEm ?? DateTime.now(),
       firstDate: DateTime(2000),
       lastDate: DateTime(2100),
     );
     if (picked != null) {
       final TimeOfDay? time = await showTimePicker(
-        context: context,
+        // ignore: use_build_context_synchronously
+        context: buildContext,
         initialTime: TimeOfDay.fromDateTime(_concluidoEm ?? DateTime.now()),
       );
       if (time != null) {

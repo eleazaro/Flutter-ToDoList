@@ -6,9 +6,6 @@ class ApiClient {
 
   Future<List<dynamic>> get(String endpoint) async {
     try {
-      final String url = '$baseUrl$endpoint';
-      print('Chamando: $url');
-
       final response = await http.get(Uri.parse('$baseUrl$endpoint'));
 
       if (response.statusCode == 200) {
